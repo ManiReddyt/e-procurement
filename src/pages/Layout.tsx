@@ -29,11 +29,11 @@ const LayoutContainer = styled.div`
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.1);
     background: white;
   }
-  .children {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  // .children {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: center;
+  // }
 `;
 
 type LayoutProps = {

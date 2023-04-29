@@ -20,7 +20,7 @@ export const Home = () => {
   const navigate = useNavigate();
   return (
     <Layout bidder={true} buyer={true} admin={true}>
-      <div></div>
+      <div>Add a welcome card here</div>
     </Layout>
   );
 };

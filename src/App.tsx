@@ -10,6 +10,7 @@ import { BuyerLandingPage } from "./pages/LandingPages/BuyerLandingPage";
 import { BidderLandingPage } from "./pages/LandingPages/BidderLandingPage";
 import { AdminLandingPage } from "./pages/LandingPages/AdminLandingPage";
 import { CreateTender } from "./pages/LandingPages/CreateTender";
+import { ViewBids } from "./pages/LandingPages/ViewBids";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/BidderLandingPage" element={<BidderLandingPage />} />
         <Route path="/AdminLandingPage" element={<AdminLandingPage />} />
         <Route path="/createTender" element={<CreateTender />} />
+        <Route path="/viewBids" element={<ViewBids />} />
         {/* <Route path="/Layout" element={<Layout />} /> */}
         {/* </Route> */}
       </Routes>

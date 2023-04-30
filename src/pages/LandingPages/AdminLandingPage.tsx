@@ -15,7 +15,7 @@ interface UserProps {
   status: string | null;
 }
 
-const TableTitle = styled.div`
+export const TableTitle = styled.div`
   align-self: flex-start;
   color: black;
   margin-top: 10px;

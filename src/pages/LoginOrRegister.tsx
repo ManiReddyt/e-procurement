@@ -68,8 +68,14 @@ export const LoginOrRegister = () => {
         const responseData = await post.json();
         if (responseData.length === 1) {
           if (responseData[0].status === "approved") {
-            if (login.usertype === "bidder") navigate("/BidderLandingPage");
-            if (login.usertype === "buyer") navigate("/BuyerLandingPage");
+            if (login.usertype === "bidder")
+              navigate("/BidderLandingPage", {
+                state: { userId: responseData[0].id },
+              });
+            if (login.usertype === "buyer")
+              navigate("/BuyerLandingPage", {
+                state: { userId: responseData[0].id },
+              });
           } else if (responseData[0].status === "rejected") {
             console.log("waiting for approval");
           }

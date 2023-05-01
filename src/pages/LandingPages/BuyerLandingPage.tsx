@@ -5,7 +5,7 @@ import "./../../App.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { categoryPorps, subCategoriesProps } from "./CreateTender";
 
-type tenderProps = {
+export type tenderProps = {
   id: string;
   title: string;
   description: string;
@@ -94,55 +94,55 @@ export const BuyerLandingPage = () => {
         >
           View Your Tenders
         </Button> */}
-          <>
-            <table style={{ width: "100%" }}>
-              <thead>
-                <tr>
-                  <th>id</th>
-                  <th>title</th>
-                  <th>description Bids</th>
-                  <th>budget</th>
-                  <th>category</th>
-                  <th>subcategory</th>
-                  <th>createdOn</th>
-                  <th>expireson</th>
-                  <th>Bids</th>
+        <>
+          <table style={{ width: "100%" }}>
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>description Bids</th>
+                <th>budget</th>
+                <th>category</th>
+                <th>subcategory</th>
+                <th>createdOn</th>
+                <th>expireson</th>
+                <th>Bids</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tenders.map((tender) => (
+                <tr key={tender.id}>
+                  <td>{tender.id}</td>
+                  <td>{tender.title}</td>
+                  <td>{tender.description}</td>
+                  <td>{tender.budget}</td>
+                  <td>{categoryName(tender.categoryid)}</td>
+                  <td>{subCategoryName(tender.subcategoryid)}</td>
+                  <td>
+                    {new Date(tender.createdon).toLocaleDateString("en-GB")}
+                  </td>
+                  <td>
+                    {new Date(tender.expireson).toLocaleDateString("en-GB")}
+                  </td>
+                  <td>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      style={{ padding: "3px" }}
+                      onClick={() =>
+                        navigate("/viewBids", {
+                          state: { TenderId: tender.id },
+                        })
+                      }
+                    >
+                      Bids
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {tenders.map((tender) => (
-                  <tr key={tender.id}>
-                    <td>{tender.id}</td>
-                    <td>{tender.title}</td>
-                    <td>{tender.description}</td>
-                    <td>{tender.budget}</td>
-                    <td>{categoryName(tender.categoryid)}</td>
-                    <td>{subCategoryName(tender.subcategoryid)}</td>
-                    <td>
-                      {new Date(tender.createdon).toLocaleDateString("en-GB")}
-                    </td>
-                    <td>
-                      {new Date(tender.expireson).toLocaleDateString("en-GB")}
-                    </td>
-                    <td>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        style={{ padding: "3px" }}
-                        onClick={() =>
-                          navigate("/viewBids", {
-                            state: { TenderId: tender.id },
-                          })
-                        }
-                      >
-                        Bids
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </>
+              ))}
+            </tbody>
+          </table>
+        </>
       </div>
     </Layout>
   );

@@ -7,12 +7,12 @@ export type bidProps = {
   id: string;
   tenderid: string;
   description: string;
-  bidCreatedon: string;
+  createdon: string;
   quotingprice: string;
   deliveryon: string;
   deliveryterms: string;
-  warranty: string;
-  warrantyterms: string;
+  warrenty: string;
+  warrentyterms: string;
   paymentterms: string;
   bidderid: string;
   rating: string;
@@ -56,12 +56,12 @@ export const ViewBids = () => {
                 <td>{bid.id}</td>
                 <td>{bid.tenderid}</td>
                 <td>{bid.description}</td>
-                <td>{bid.bidCreatedon}</td>
+                <td>{bid.createdon}</td>
                 <td>{bid.quotingprice}</td>
                 <td>{bid.deliveryon}</td>
                 <td>{bid.deliveryterms}</td>
-                <td>{bid.warranty}</td>
-                <td>{bid.warrantyterms}</td>
+                <td>{bid.warrenty}</td>
+                <td>{bid.warrentyterms}</td>
                 <td>{bid.paymentterms}</td>
                 <td>{bid.bidderid}</td>
                 <td>{bid.rating}</td>

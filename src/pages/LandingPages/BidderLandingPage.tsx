@@ -66,7 +66,7 @@ export const BidderLandingPage = () => {
           <tr>
             <th>id</th>
             <th>title</th>
-            <th>description Bids</th>
+            <th>Description</th>
             <th>budget</th>
             <th>category</th>
             <th>subcategory</th>
@@ -109,23 +109,20 @@ export const BidderLandingPage = () => {
       <table style={{ width: "100%" }}>
         <thead>
           <tr>
-            <th>id</th>
             <th>tenderid</th>
-            <th>description Bids</th>
-            <th>bidCreatedOn</th>
+            <th>description</th>
+            <th>submitted on</th>
             <th>quotingprice</th>
             <th>deliveryon</th>
             <th>deliveryterms</th>
-            <th>warranty</th>
+            <th>warranty in months</th>
             <th>warrantyterms</th>
             <th>paymentterms</th>
-            <th>bidderid</th>
           </tr>
         </thead>
         <tbody>
           {bids.map((bid) => (
             <tr key={bid.id}>
-              <td>{bid.id}</td>
               <td>{bid.tenderid}</td>
               <td>{bid.description}</td>
               <td>{bid.createdon}</td>
@@ -135,7 +132,6 @@ export const BidderLandingPage = () => {
               <td>{bid.warrenty}</td>
               <td>{bid.warrentyterms}</td>
               <td>{bid.paymentterms}</td>
-              <td>{bid.bidderid}</td>
             </tr>
           ))}
         </tbody>

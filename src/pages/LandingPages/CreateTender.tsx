@@ -128,7 +128,7 @@ export const CreateTender = () => {
             <InputLabel id="demo-simple-select-label">Sub-Category</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="subCategory"
               value={createTender.SubCategoryId}
               label="Sub-Category"
               onChange={(e) => {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { Layout } from "./Layout";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const LoginOrRegisterContainer = styled.div`
   background-color: white;
@@ -36,13 +36,18 @@ type loginProps = { username: string; password: string; usertype: string };
 export const LoginOrRegister = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const type = location.state.from;
-  const x = type.toLowerCase();
+  const x = location.state.from;
+  const [type, setType] = useState("");
   const [login, setLogin] = useState({
     username: "",
     password: "",
-    usertype: x,
+    usertype: type,
   });
+
+  useEffect(() => {
+    setType(x);
+    setLogin({ ...login, usertype: x.toLowerCase() });
+  }, [x]);
 
   const handleLogin = (login: loginProps) => {
     if (
@@ -52,6 +57,7 @@ export const LoginOrRegister = () => {
     ) {
       navigate("/AdminLandingPage");
     } else {
+      console.log("login", login);
       handleAuthentication(login);
     }
   };

@@ -10,7 +10,7 @@ import styled from "styled-components";
 const AddBidContainer = styled.div`
   background-color: white;
   color: #1976d2;
-  width: 500px;
+  width: 700px;
   display: flex;
   flex-direction: column;
   align-items: center;

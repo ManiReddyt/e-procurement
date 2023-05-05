@@ -15,6 +15,19 @@ export type tenderProps = {
   categoryid: string;
   subcategoryid: string;
   createdby: string;
+  winner: string;
+};
+
+//todo
+const getUserName = async (id: string) => {
+  const fetchData = await fetch(
+    `http://localhost:3000/api/admin/user/${id}/username`
+  );
+  const response = fetchData.json();
+  return response;
+  // fetch(`http://localhost:3000/api/admin/user/${id}/username`)
+  //   .then((response) => response.json())
+  //   .then((data) => data);
 };
 
 export const BuyerLandingPage = () => {
@@ -106,6 +119,7 @@ export const BuyerLandingPage = () => {
                 <th>subcategory</th>
                 <th>createdOn</th>
                 <th>expireson</th>
+                <th>winner</th>
                 <th>Bids</th>
               </tr>
             </thead>
@@ -124,6 +138,8 @@ export const BuyerLandingPage = () => {
                   <td>
                     {new Date(tender.expireson).toLocaleDateString("en-GB")}
                   </td>
+
+                  <td>{tender.winner}</td>
                   <td>
                     <Button
                       variant="contained"
@@ -131,7 +147,7 @@ export const BuyerLandingPage = () => {
                       style={{ padding: "3px" }}
                       onClick={() =>
                         navigate("/viewBids", {
-                          state: { TenderId: tender.id },
+                          state: { TenderId: tender.id, userId: userId },
                         })
                       }
                     >

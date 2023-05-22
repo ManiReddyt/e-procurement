@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { Layout } from "./Layout";
 import { useState } from "react";
 import { CenterContainer } from "./LoginOrRegister";
+import { CustomisedSnackBar } from "./Home";
 
 const BidderRegistrationFormContainer = styled.div`
   background-color: white;
@@ -33,7 +34,11 @@ export type registerProps = {
   userType: string;
 };
 
-export const handleRegister = async (register: registerProps) => {
+export const handleRegister = async (
+  register: registerProps,
+  setSucess: any,
+  setError: any
+) => {
   try {
     const post = await fetch(
       "http://127.0.0.1:3000/api/admin/registerrequest",
@@ -45,13 +50,18 @@ export const handleRegister = async (register: registerProps) => {
         body: JSON.stringify(register),
       }
     );
-    if (post.status === 200) console.log("post success");
+    if (post.status === 200) {
+      setSucess(true);
+    } else setError(true);
   } catch (e) {
     console.log(e);
+    setError(true);
   }
 };
 
 export const BidderRegistrationForm = () => {
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarOpenError, setSnackBarOpenError] = useState(false);
   const [register, setRegister] = useState({
     userName: "",
     email: "",
@@ -125,11 +135,25 @@ export const BidderRegistrationForm = () => {
             variant="contained"
             style={{ margin: "20px" }}
             onClick={() => {
-              handleRegister(register);
+              handleRegister(register, setSnackBarOpen, setSnackBarOpenError);
             }}
           >
             Register
           </Button>
+          <CustomisedSnackBar
+            open={snackBarOpen}
+            onClose={() => setSnackBarOpen(false)}
+            type={"success"}
+          >
+            Registration SuccessFul
+          </CustomisedSnackBar>
+          <CustomisedSnackBar
+            open={snackBarOpenError}
+            onClose={() => setSnackBarOpenError(false)}
+            type={"error"}
+          >
+            Registration UnSuccessFul
+          </CustomisedSnackBar>
         </BidderRegistrationFormContainer>
       </CenterContainer>
     </Layout>

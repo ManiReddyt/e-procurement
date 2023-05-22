@@ -48,8 +48,6 @@ export const Layout: React.FC<LayoutProps> = ({
   buyer = false,
   admin = false,
   children,
-}: {
-  children: ReactNode;
 }) => {
   const navigate = useNavigate();
   return (

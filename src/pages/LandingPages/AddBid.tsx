@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Layout } from "../Layout";
 import { CenterContainer } from "../LoginOrRegister";
 import { useState } from "react";
@@ -6,6 +6,7 @@ import { Tit } from "../LoginOrRegister";
 import { TextField, Button } from "@mui/material";
 import { changeDateFormat } from "./CreateTender";
 import styled from "styled-components";
+import { CustomisedSnackBar } from "../Home";
 
 const AddBidContainer = styled.div`
   background-color: white;
@@ -20,7 +21,7 @@ const AddBidContainer = styled.div`
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 `;
 
-const handleAddBid = async (object: any) => {
+const handleAddBid = async (object: any, setSuccess: any, setError: any) => {
   try {
     const post = await fetch("http://127.0.0.1:3000/api/bidder/bid", {
       method: "POST",
@@ -29,14 +30,25 @@ const handleAddBid = async (object: any) => {
       },
       body: JSON.stringify(object),
     });
-    if (post.status === 200) console.log("Bid Successfull");
+    if (post.status === 200) {
+      console.log("Bid Successfull");
+      setSuccess(true);
+      return true;
+    } else {
+      setError(true);
+      return false;
+    }
   } catch (e) {
     console.log(e);
+    setError(true);
   }
 };
 
 export const AddBid = () => {
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarOpenError, setSnackBarOpenError] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const tenderId = location.state.TenderId;
   const bidderId = location.state.BidderId;
   const [addBid, setAddBid] = useState({
@@ -121,14 +133,39 @@ export const AddBid = () => {
           />
           <Button
             variant="contained"
-            onClick={() => {
+            onClick={async () => {
               console.log(addBid);
-              handleAddBid(addBid);
+              const x = await handleAddBid(
+                addBid,
+                setSnackBarOpen,
+                setSnackBarOpenError
+              );
+              if (x) {
+                setTimeout(() => {
+                  navigate("/BidderLandingPage", {
+                    state: { userId: location.state.BidderId },
+                  });
+                }, 3000);
+              }
             }}
             style={{ margin: "20px" }}
           >
             BID
           </Button>
+          <CustomisedSnackBar
+            open={snackBarOpen}
+            onClose={() => setSnackBarOpen(false)}
+            type={"success"}
+          >
+            Bid Added SuccessFully
+          </CustomisedSnackBar>
+          <CustomisedSnackBar
+            open={snackBarOpenError}
+            onClose={() => setSnackBarOpenError(false)}
+            type={"error"}
+          >
+            Bid Add UnSuccessFul
+          </CustomisedSnackBar>
         </AddBidContainer>
       </CenterContainer>
     </Layout>

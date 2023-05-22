@@ -8,6 +8,8 @@ import Select from "@mui/material/Select/Select";
 import InputLabel from "@mui/material/InputLabel/InputLabel";
 import MenuItem from "@mui/material/MenuItem/MenuItem";
 import { useLocation } from "react-router-dom";
+import { CustomisedSnackBar } from "../Home";
+import { useNavigate } from "react-router-dom";
 
 const CreateTenderContainer = styled.div`
   background-color: white;
@@ -36,7 +38,11 @@ export const changeDateFormat = (date: string) => {
   return `${arr[2]}-${arr[1]}-${arr[0]}`;
 };
 
-const handleCreateTender = async (object: any) => {
+const handleCreateTender = async (
+  object: any,
+  setSuccess: any,
+  setError: any
+) => {
   try {
     const post = await fetch("http://127.0.0.1:3000/api/buyer/tender", {
       method: "POST",
@@ -45,19 +51,30 @@ const handleCreateTender = async (object: any) => {
       },
       body: JSON.stringify(object),
     });
-    if (post.status === 200) console.log("Tender Created Successfully");
+    if (post.status === 200) {
+      console.log("Tender Created Successfully");
+      setSuccess(true);
+      return true;
+    } else {
+      setError(true);
+      return false;
+    }
   } catch (e) {
     console.log(e);
+    setError(true);
   }
 };
 
 export const CreateTender = () => {
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarOpenError, setSnackBarOpenError] = useState(false);
   const [categories, setCategories] = useState<categoryPorps[]>([]);
   const [subCategories, setSubCategories] = useState<subCategoriesProps[][]>([
     [],
   ]);
   const [expiresOn, setExpiresOn] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [createTender, setCreateTender] = useState({
     Title: "",
@@ -180,14 +197,39 @@ export const CreateTender = () => {
           />
           <Button
             variant="contained"
-            onClick={() => {
+            onClick={async () => {
               console.log(createTender);
-              handleCreateTender(createTender);
+              const x = await handleCreateTender(
+                createTender,
+                setSnackBarOpen,
+                setSnackBarOpenError
+              );
+              if (x) {
+                setTimeout(() => {
+                  navigate("/BuyerLandingPage", {
+                    state: { userId: location.state.userId },
+                  });
+                }, 3000);
+              }
             }}
             style={{ margin: "20px" }}
           >
             Create
           </Button>
+          <CustomisedSnackBar
+            open={snackBarOpen}
+            onClose={() => setSnackBarOpen(false)}
+            type={"success"}
+          >
+            Tender Created SuccessFully
+          </CustomisedSnackBar>
+          <CustomisedSnackBar
+            open={snackBarOpenError}
+            onClose={() => setSnackBarOpenError(false)}
+            type={"error"}
+          >
+            Tender Creation UnSuccessFul
+          </CustomisedSnackBar>
         </CreateTenderContainer>
       </CenterContainer>
     </Layout>

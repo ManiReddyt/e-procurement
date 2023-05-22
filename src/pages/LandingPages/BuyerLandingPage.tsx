@@ -32,7 +32,6 @@ const getUserName = async (id: string) => {
 
 export const BuyerLandingPage = () => {
   const [createTender, setCreateTender] = useState(false);
-  // const [viewTenders, setViewTenders] = useState(false);
   const [categories, setCategories] = useState<categoryPorps[]>([]);
   const [subCategories, setSubCategories] = useState<subCategoriesProps[][]>([
     [],
@@ -99,14 +98,6 @@ export const BuyerLandingPage = () => {
         >
           Create Tender
         </Button>
-        {/* <Button
-          variant="contained"
-          onClick={() => {
-            setViewTenders(!viewTenders);
-          }}
-        >
-          View Your Tenders
-        </Button> */}
         <>
           <table style={{ width: "100%" }}>
             <thead>

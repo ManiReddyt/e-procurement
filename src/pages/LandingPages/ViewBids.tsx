@@ -3,6 +3,7 @@ import { Layout } from "../Layout";
 import { useState, useEffect } from "react";
 import { TableTitle } from "./AdminLandingPage";
 import { Button } from "@mui/material";
+import { CustomisedSnackBar } from "../Home";
 
 export type bidProps = {
   id: string;
@@ -19,7 +20,12 @@ export type bidProps = {
   rating: string;
 };
 
-const handleWinner = async (tenderId: string, userID: string) => {
+const handleWinner = async (
+  tenderId: string,
+  userID: string,
+  setSuccess: any,
+  setError: any
+) => {
   try {
     const post = await fetch(
       `http://127.0.0.1:3000/api/buyer/tender/${tenderId}/winner/${userID}`,
@@ -31,15 +37,26 @@ const handleWinner = async (tenderId: string, userID: string) => {
         body: JSON.stringify({ tenderid: tenderId, winnerid: userID }),
       }
     );
-    if (post.status === 200) console.log("winner set successfully");
+    if (post.status === 200) {
+      setSuccess(true);
+      console.log("winner set successfully");
+      return true;
+    } else {
+      setError(true);
+      return false;
+    }
   } catch (e) {
     console.log(e);
+    setError(true);
   }
 };
 
 export const ViewBids = () => {
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarOpenError, setSnackBarOpenError] = useState(false);
   const [bids, setBids] = useState<bidProps[]>([]);
   const location = useLocation();
+  const navigate = useNavigate();
   const tenderId = location.state.TenderId;
   const userId = location.state.userId;
   console.log("userID", userId);
@@ -90,7 +107,21 @@ export const ViewBids = () => {
                   <Button
                     variant="contained"
                     color="success"
-                    onClick={() => handleWinner(bid.tenderid, userId)}
+                    onClick={async () => {
+                      const x = await handleWinner(
+                        bid.tenderid,
+                        userId,
+                        setSnackBarOpen,
+                        setSnackBarOpenError
+                      );
+                      if (x) {
+                        setTimeout(() => {
+                          navigate("/BuyerLandingPage", {
+                            state: { userId: location.state.userId },
+                          });
+                        }, 3000);
+                      }
+                    }}
                   >
                     Award
                   </Button>
@@ -99,6 +130,20 @@ export const ViewBids = () => {
             ))}
           </tbody>
         </table>
+        <CustomisedSnackBar
+          open={snackBarOpen}
+          onClose={() => setSnackBarOpen(false)}
+          type={"success"}
+        >
+          Awarded SuccessFully
+        </CustomisedSnackBar>
+        <CustomisedSnackBar
+          open={snackBarOpenError}
+          onClose={() => setSnackBarOpenError(false)}
+          type={"error"}
+        >
+          Award UnSuccessFul
+        </CustomisedSnackBar>
       </>
     </Layout>
   );

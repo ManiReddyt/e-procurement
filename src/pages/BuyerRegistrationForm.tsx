@@ -5,6 +5,7 @@ import { Layout } from "./Layout";
 import { handleRegister } from "./BidderRegistrationForm";
 import { useState } from "react";
 import { CenterContainer } from "./LoginOrRegister";
+import { CustomisedSnackBar } from "./Home";
 
 const BuyerRegistrationFormContainer = styled.div`
   background-color: white;
@@ -27,6 +28,8 @@ const Tit = styled.div`
 // const handleRegister;
 
 export const BuyerRegistrationForm = () => {
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
+  const [snackBarOpenError, setSnackBarOpenError] = useState(false);
   const [register, setRegister] = useState({
     userName: "",
     email: "",
@@ -80,10 +83,26 @@ export const BuyerRegistrationForm = () => {
           <Button
             variant="contained"
             style={{ margin: "20px" }}
-            onClick={() => handleRegister(register)}
+            onClick={() =>
+              handleRegister(register, setSnackBarOpen, setSnackBarOpenError)
+            }
           >
             Register
           </Button>
+          <CustomisedSnackBar
+            open={snackBarOpen}
+            onClose={() => setSnackBarOpen(false)}
+            type={"success"}
+          >
+            Registration SuccessFul
+          </CustomisedSnackBar>
+          <CustomisedSnackBar
+            open={snackBarOpenError}
+            onClose={() => setSnackBarOpenError(false)}
+            type={"error"}
+          >
+            Registration UnSuccessFul
+          </CustomisedSnackBar>
         </BuyerRegistrationFormContainer>
       </CenterContainer>
     </Layout>
